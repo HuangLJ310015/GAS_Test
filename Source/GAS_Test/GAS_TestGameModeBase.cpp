@@ -3,3 +3,9 @@
 
 #include "GAS_TestGameModeBase.h"
 
+#include "Player/AuraPlayerController.h"
+
+AGAS_TestGameModeBase::AGAS_TestGameModeBase()
+{
+	PlayerControllerClass = AAuraPlayerController::StaticClass();
+}

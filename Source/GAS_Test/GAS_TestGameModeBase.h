@@ -13,5 +13,6 @@ UCLASS()
 class GAS_TEST_API AGAS_TestGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+public:
+	AGAS_TestGameModeBase();
 };
