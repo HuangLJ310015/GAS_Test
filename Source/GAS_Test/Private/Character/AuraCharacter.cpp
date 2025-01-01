@@ -3,7 +3,9 @@
 
 #include "Character/AuraCharacter.h"
 
+#include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/AuraPlayerState.h"
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -13,7 +15,9 @@ AAuraCharacter::AAuraCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f,400.f,0.f);
 	//限制角色在平面上
 	GetCharacterMovement()->bConstrainToPlane = true;
-
+	//吸附到平面上
+	GetCharacterMovement()->bSnapToPlaneAtStart = true;
+	
 	//Pawn 不 跟随控制器旋转
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationPitch = false;
@@ -21,4 +25,35 @@ AAuraCharacter::AAuraCharacter()
 
 	
 	
+}
+
+//仅服务器上调用
+void AAuraCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	//为服务端初始化 AbilityActorInfo
+	InitAbilityActorInfo();
+	
+	
+}
+
+//客户端调用
+void AAuraCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	//为客户端初始化 AbilityActorInfo
+	InitAbilityActorInfo();
+}
+
+void AAuraCharacter::InitAbilityActorInfo()
+{
+	if (AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>())
+	{
+		//设置能力组件的 拥有者(PlayerState)  和  化身（Character）
+		AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState,this);
+		//初始化Character的 能力系统组件 和 属性集
+		AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
+		AttributeSet = AuraPlayerState->GetAttributeSet();
+	}
 }

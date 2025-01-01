@@ -3,11 +3,20 @@
 
 #include "Character/AuraEnemy.h"
 
+#include "AbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 #include "GAS_Test/GAS_Test.h"
 
 AAuraEnemy::AAuraEnemy()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility,ECR_Block);
+	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->SetIsReplicated(true);
+	// 设置复制模式：AIController 选择 Minimal
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+	
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>(TEXT("AttributeSet"));
+
 }
 
 void AAuraEnemy::HighlightActor()
@@ -23,3 +32,12 @@ void AAuraEnemy::UnHighlightActor()
 	GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);
 }
+
+void AAuraEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+	//设置能力组件的Owner和 Avatar
+	AbilitySystemComponent->InitAbilityActorInfo(this,this);
+}
+
+
