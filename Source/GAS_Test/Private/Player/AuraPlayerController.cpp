@@ -19,8 +19,10 @@ void AAuraPlayerController::BeginPlay()
 
 	//添加输入映射
 	UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	checkf(InputSubsystem,TEXT("InputSubsystem 不能为Null"));
-	InputSubsystem->AddMappingContext(AuraContext,0);
+	if (InputSubsystem)
+	{
+		InputSubsystem->AddMappingContext(AuraContext,0);
+	}
 
 	//是否显示光标
 	bShowMouseCursor = true;
