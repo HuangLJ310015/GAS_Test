@@ -38,6 +38,6 @@ private:
 	void Move(const FInputActionValue& InputActionValue);
 
 	void CursorTrace();
-	TObjectPtr<IEnemyInterface> LastActor; //上一个高亮的Actor
-	TObjectPtr<IEnemyInterface> ThisActor; //当前高亮的Actor
+	IEnemyInterface* LastActor; //上一个高亮的Actor
+	IEnemyInterface* ThisActor; //当前高亮的Actor
 };
