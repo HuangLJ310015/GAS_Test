@@ -37,8 +37,9 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 
 	//为服务端初始化 AbilityActorInfo
 	InitAbilityActorInfo();
-	
-	
+
+	//添加能力
+	AddCharacterAbilities();
 }
 
 //客户端调用
