@@ -54,4 +54,20 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	// 	FName("Attributes.Vital.Health"), FString(TEXT("生命值")));
 	// GameplayTags.Attributes_Vital_Mana = GameplayTagsManager.AddNativeGameplayTag(
 	// 	FName("Attributes.Vital.Mana"), FString(TEXT("魔力值")));
+
+	/*
+	 *		Input Tags
+	 */
+	GameplayTags.InputTag_LMB = GameplayTagsManager.AddNativeGameplayTag(
+		FName("InputTag.LMB"), FString(TEXT("鼠标左键 的 InputTag")));
+	GameplayTags.InputTag_RMB = GameplayTagsManager.AddNativeGameplayTag(
+		FName("InputTag.RMB"), FString(TEXT("鼠标右键 的 InputTag")));
+	GameplayTags.InputTag_1 = GameplayTagsManager.AddNativeGameplayTag(
+		FName("InputTag.1"), FString(TEXT("按键‘1’ 的 InputTag")));
+	GameplayTags.InputTag_2 = GameplayTagsManager.AddNativeGameplayTag(
+		FName("InputTag.2"), FString(TEXT("按键‘2’ 的 InputTag")));
+	GameplayTags.InputTag_3 = GameplayTagsManager.AddNativeGameplayTag(
+		FName("InputTag.3"), FString(TEXT("按键‘3’ 的 InputTag")));
+	GameplayTags.InputTag_4 = GameplayTagsManager.AddNativeGameplayTag(
+		FName("InputTag.4"), FString(TEXT("按键‘4’ 的 InputTag")));
 }
