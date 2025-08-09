@@ -44,6 +44,7 @@ private:
 	void CursorTrace();
 	IEnemyInterface* LastActor; //上一个高亮的Actor
 	IEnemyInterface* ThisActor; //当前高亮的Actor
+	FHitResult CursorHit; //鼠标命中信息
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
@@ -68,4 +69,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
+
+	void AutoRun();
 };
