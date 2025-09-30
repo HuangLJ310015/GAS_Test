@@ -3,6 +3,7 @@
 
 #include "AuraAssetManager.h"
 
+#include "AbilitySystemGlobals.h"
 #include "AuraGameplayTags.h"
 
 UAuraAssetManager& UAuraAssetManager::Get()
@@ -17,4 +18,6 @@ void UAuraAssetManager::StartInitialLoading()
 	Super::StartInitialLoading();
 
 	FAuraGameplayTags::InitializeNativeGameplayTags();
+	//如果想使用 GAS 的TargetData 必须
+	UAbilitySystemGlobals::Get().InitGlobalData();
 }

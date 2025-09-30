@@ -32,6 +32,12 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 	
 }
 
+FVector AAuraCharacterBase::GetCombatSocketLocation()
+{
+	checkf(Weapon, TEXT("必须配置武器"))
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
 	checkf(GetAbilitySystemComponent(),TEXT("AbilitySystemComponent 为空"));
