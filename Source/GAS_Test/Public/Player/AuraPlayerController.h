@@ -42,8 +42,9 @@ private:
 	void Move(const FInputActionValue& InputActionValue);
 
 	void CursorTrace();
-	IEnemyInterface* LastActor; //上一个高亮的Actor
-	IEnemyInterface* ThisActor; //当前高亮的Actor
+	TScriptInterface<IEnemyInterface> LastActor; //上一个高亮的Actor
+	TScriptInterface<IEnemyInterface> ThisActor; //当前高亮的Actor
+
 	FHitResult CursorHit; //鼠标命中信息
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
