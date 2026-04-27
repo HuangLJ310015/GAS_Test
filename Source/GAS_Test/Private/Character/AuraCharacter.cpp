@@ -78,6 +78,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 		}
 	}
 
+	//初始化角色默认属性
 	InitializeDefaultAttributes();
 	
 }

@@ -30,9 +30,12 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	if (TargetASC == nullptr) return;
 	checkf(GameplayEffectClass,TEXT("AAuraEffectActor.GameplayEffectClass。。。未设置"))
 
-	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
+	// SourceObject: 主要目的用于本次效果应用相关数据传递 (相当于： U盘、上下文对象、GA)
+	// Instigator: 效果的发起者，默认是ASC的OwnerActor (相当于：谁干的)
+	// EffectCauser: 造成效果的物理来源或者物体，默认是ASC的AvatarActor (相当于：用什么干的，武器、Pawn、Actor)
+	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext(); //存储 instigator 相关数据
 	EffectContextHandle.AddSourceObject(this);
-	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, ActorLevel,EffectContextHandle);
+	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, ActorLevel,EffectContextHandle);//存放GameplayEffect相关数据
 	const FActiveGameplayEffectHandle ActiveEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
 	const bool bIsInfinite = EffectSpecHandle.Data->Def->DurationPolicy == EGameplayEffectDurationType::Infinite;

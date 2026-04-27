@@ -38,6 +38,7 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	//注册复制属性
+	//DOREPLIFETIME_CONDITION_NOTIFY 为 DOREPLIFETIME 增强版，常用于 GAS 或 高性能 场景
 
 	//Primary Attributes
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet,Strength,COND_None,REPNOTIFY_Always);
@@ -62,6 +63,16 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet,Mana,COND_None,REPNOTIFY_Always);
 }
 
+/**
+ * 
+这个函数在属性值（Current Value）即将发生改变之前被调用。
+
+触发时机： 只要属性的当前值（Current Value）发生变化（无论是通过 Gameplay Effect、手动设置还是数值校正），该函数都会被触发。
+核心功能： 它的参数 NewValue 是通过引用传递的，允许你在属性值正式生效前对其进行最后的修改。
+主要用途：
+数值钳制（Clamping）： 最常见的用途是确保属性不会超出合理范围。例如，确保 Health 永远不会超过 MaxHealth，或者不会低于 0。
+即时同步： 它是同步 UI 预测值或处理瞬时数值波动的理想位置。
+ */
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	Super::PreAttributeChange(Attribute, NewValue);
@@ -109,6 +120,17 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 	}
 }
 
+/**
+ * 
+这个函数在 Instant（立即执行） 类型的 Gameplay Effect（GE）修改属性的基础值（Base Value）之后被调用。
+
+触发时机： 仅当一个 Instant GE 成功应用并修改了属性后触发。如果是来自 Duration（持续）或 Infinite（永久）GE 的修改，通常不会触发此函数（除非是该 GE 结束时的最终应用）。
+核心功能： 它提供了一个 FGameplayEffectModCallbackData 结构体，其中包含大量上下文信息（如谁发起的攻击、使用了哪个能力、目标是谁等）。
+主要用途：
+处理 Meta 属性： 处理像 Damage 或 Healing 这样的临时 Meta 属性。你会在这里将 Damage 转换为实际对 Health 的扣除。
+触发游戏逻辑： 例如判断角色是否被 淘汰。
+UI 消息与反馈： 触发飘字或播放受击特效，因为它能告诉你伤害的来源。
+ */
 void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
