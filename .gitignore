@@ -16,5 +16,6 @@ Build
 *.suo
 *.xcodeproj
 *.xcworkspace
+*.DotSettings.user
 /Plugins/Developer/RiderLink
 
