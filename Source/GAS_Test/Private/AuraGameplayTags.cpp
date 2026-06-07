@@ -70,4 +70,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("InputTag.3"), FString(TEXT("按键‘3’ 的 InputTag")));
 	GameplayTags.InputTag_4 = GameplayTagsManager.AddNativeGameplayTag(
 		FName("InputTag.4"), FString(TEXT("按键‘4’ 的 InputTag")));
+	
+	GameplayTags.Damage = GameplayTagsManager.AddNativeGameplayTag(
+		FName("Damage"), FString(TEXT("Damage")));
+	
+	GameplayTags.Effects_HitReact = GameplayTagsManager.AddNativeGameplayTag(
+		FName("Effects.HitReact"), FString(TEXT("击中反应时授予标签")));
 }
